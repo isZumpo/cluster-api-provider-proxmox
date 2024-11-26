@@ -257,7 +257,8 @@ release-manifests: $(KUSTOMIZE) ## Create kustomized release manifest in $RELEAS
 	@mkdir -p $(RELEASE_DIR)
 	cp metadata.yaml $(RELEASE_DIR)/metadata.yaml
 	## change the image tag to the release version
-	cd $(RELEASE_MANIFEST_SOURCE_BASE) && $(KUSTOMIZE) edit set image $(REPOSITORY):$(RELEASE_VERSION)
+	## TODO see if possible to replace image name with fork image name
+	cd $(RELEASE_MANIFEST_SOURCE_BASE) && $(KUSTOMIZE) edit set image $(REPOSITORY):$(RELEASE_VERSION) 
 	## generate the release manifest
 	$(KUSTOMIZE) build $(RELEASE_MANIFEST_SOURCE_BASE) > $(RELEASE_DIR)/infrastructure-components.yaml
 
