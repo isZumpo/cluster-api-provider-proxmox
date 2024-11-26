@@ -16,6 +16,8 @@ jobs:
     steps:
       - name: Set env
         run:  echo "RELEASE_TAG=${GITHUB_REF##refs/tags/}" >> "$GITHUB_ENV"
+      - name: Generate downcase repository name
+        run:  echo "REPO=${GITHUB_REPOSITORY,,}" >> ${GITHUB_ENV}
       - name: checkout code
         uses: actions/checkout@v4
         with:
@@ -26,7 +28,7 @@ jobs:
           go-version-file: go.mod
       - name: generate release artifacts
         run: |
-          make release-manifests RELEASE_VERSION=${{ env.RELEASE_TAG }}
+          make release-manifests RELEASE_VERSION=${{ env.RELEASE_TAG }} REPOSITORY=ghcr.io/${{ env.REPO }}
       - name: generate release templates
         run: |
           make release-templates
